@@ -25,30 +25,37 @@ public class Main {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.add("Cookie", finalSessionID);
 
-       // Map<String, String> jsonData = new HashMap<>();
+
         User user = new User();
         user.setId(3L);
         user.setName("James");
         user.setLastName("Brown");
         user.setAge((byte)35);
+        HttpEntity<User> request = new HttpEntity<>(user, httpHeaders);
 
+//        Map<String, String> jsonData = new HashMap<>();
 //        jsonData.put("id", "3");
 //        jsonData.put("name", "James");
 //        jsonData.put("lastName", "Brown");
 //        jsonData.put("age", "35");
-        HttpEntity<User> request = new HttpEntity<>(user, httpHeaders);
+//        HttpEntity<Map<String, String>> request = new HttpEntity<>(jsonData, httpHeaders);
+
         sb.append(restTemplate.postForObject(url, request, String.class));
 
 
 
-        user.setName("James");
-        user.setLastName("Brown");
+
 //        Map<String, String> jsonData2 = new HashMap<>();
 //        jsonData2.put("id", "3");
 //        jsonData2.put("name", "Thomas");
 //        jsonData2.put("lastName", "Shelby");
 //        jsonData2.put("age", "35");
+//        HttpEntity<Map<String, String>> request2 = new HttpEntity<>(jsonData2, httpHeaders);
+
+        user.setName("James");
+        user.setLastName("Brown");
         HttpEntity<User> request2 = new HttpEntity<>(user, httpHeaders);
+
         ResponseEntity<String> response2 = restTemplate.exchange(url,HttpMethod.PUT, request2, String.class);
         sb.append(response2.toString().split(",")[1]);
 
@@ -61,6 +68,9 @@ public class Main {
 
 
         System.out.println("Итоговый код задания " + sb);
+
+        ResponseEntity<String> response5 = restTemplate.getForEntity(url, String.class);
+        System.out.println(response5.getBody());
 
     }
 }
